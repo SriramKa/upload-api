@@ -4,14 +4,7 @@ const uploadFunction = require('../../functions/images/upload');
 const isLoggedIn = require('../../middleware/auth');
 
 //setting up multer
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads')
-    },
-    filename: (req, file, cb) => {
-        cb(null, 'image')
-    }
-});
+const storage = multer.memoryStorage();
 const upload = multer({storage: storage});
 
 const router = express.Router();
@@ -25,10 +18,10 @@ router.post('/', isLoggedIn, upload.single('image'), (req, res, next) => {
 		res.end('file too large, it should be <=500kb');
 	}
 	else{
-		uploadFunction(req.user.id, file.filename, file.mimetype)
+		uploadFunction(req.user.id, file.buffer, file.mimetype)
 		.then((result) => res.end(result))
 		.catch((err) => res.end(err));
 	}
-})
+});
 
-module.exports = router
+module.exports = router;

@@ -3,19 +3,20 @@ const User = require('../../models/user');
 const path = require('path');
 const fs = require('fs');
 
-module.exports = (author, filename, mimetype) => new Promise((resolve, reject) => {
+module.exports = (author, buffer, mimetype) => new Promise((resolve, reject) => {
 
 	const imageObject = {
 		img: {
-			data: fs.readFileSync(path.join(__dirname+'/uploads/'+filename)),
+			data: buffer,
 			contentType: mimetype
 		},
 		author: author
 	}
 
+	//inserting image into database
 	Image.create(imageObject)
 	.then((img) => User.findByIdAndUpdate(author, {$push: {images: img._id}}))
 	.then((user) => resolve('successful upload'))
 	.catch((err) => err);
 
-})
+});
