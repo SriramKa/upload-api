@@ -8,7 +8,7 @@ router.post('/', (req, res, next) => {
 	.then((token) => {
 		if (token) {
 			res.locals.username = req.body.username;
-			res.cookie('jwt', token.jwt, {
+			res.cookie('jwt', token, {
 				httpOnly: true,
 				maxAge: 365 * 24 * 60 * 60
 			}).end('you are logged in as '+ req.body.username);

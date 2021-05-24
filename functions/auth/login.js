@@ -36,7 +36,7 @@ module.exports = (username, password) => new Promise((resolve, reject) => {
 				}, process.env.JWT_SECRET, {
 					expiresIn: maxAge
 				});
-				callback(null, token, user.username);
+				callback(null, token);
 			}
 			else {
 				message = (result === false) ? 'Incorrect password' : message;
@@ -45,7 +45,7 @@ module.exports = (username, password) => new Promise((resolve, reject) => {
 		}
 	])
 	.then((result) => {
-		if (result) resolve(result[0]);	//this is the jwt
+		if (result) resolve(result);	//this is the jwt
 		else reject(message);
 	});
 });
