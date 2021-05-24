@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
+mongoose.set('debug', true);
 
 const port = process.env.PORT || 3000;
 
@@ -28,6 +29,12 @@ mongoose.connect(process.env.DBURL, {
 .catch((err) => {
 	console.log('Error in connecting to the db: \n', err);
 });
+
+//adding routes
+const authRoute = require('./routes/auth/auth');
+const imagesRoute = require('./routes/images/images');
+app.use('/auth', authRoute);
+app.use('/images', imagesRoute);
 
 //for all undefined routes:
 app.use((req, res, next) => res.status(404).end('Route not found.'));
