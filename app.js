@@ -12,7 +12,6 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(morgan('tiny'));
 
 //connecting to the database and starting the server
 mongoose.connect(process.env.DBURL, {
