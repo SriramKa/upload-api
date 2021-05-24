@@ -32,7 +32,9 @@ mongoose.connect(process.env.DBURL, {
 
 //adding routes
 const authRoute = require('./routes/auth/auth');
+const imagesRoute = require('./routes/images/images');
 app.use('/auth', authRoute);
+app.use('/images', imagesRoute);
 
 //for all undefined routes:
 app.use((req, res, next) => res.status(404).end('Route not found.'));

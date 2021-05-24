@@ -10,7 +10,11 @@ const userSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 		trim: true
-	}
+	},
+	images: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'image'
+	}]
 });
 
 const userModel = mongoose.model('user', userSchema);
