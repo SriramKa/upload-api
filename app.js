@@ -35,5 +35,8 @@ const imagesRoute = require('./routes/images/images');
 app.use('/auth', authRoute);
 app.use('/images', imagesRoute);
 
+//default route
+app.get('/', (req,res,next) => res.end('hi! refer to https://github.com/SriramKa/upload-api for usage'));
+
 //for all undefined routes:
 app.use((req, res, next) => res.status(404).end('Route not found.'));
