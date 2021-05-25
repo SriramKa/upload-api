@@ -1,22 +1,23 @@
 const Image = require('../../models/image');
 const User = require('../../models/user');
-const path = require('path');
-const fs = require('fs');
 
-module.exports = (author, buffer, mimetype) => new Promise((resolve, reject) => {
+module.exports = (author, imageBuffer, filename, mimetype) => new Promise((resolve, reject) => {
 
+	const imageBase64 = imageBuffer.toString('base64');
 	const imageObject = {
-		img: {
-			data: buffer,
-			contentType: mimetype
-		},
-		author: author
+		author: author,
+		name: filename,
+		data: imageBase64,
+		contentType: mimetype
 	}
 
 	//inserting image into database
 	Image.create(imageObject)
-	.then((img) => User.findByIdAndUpdate(author, {$push: {images: img._id}}))
-	.then((user) => resolve('successful upload'))
-	.catch((err) => err);
+	.then((image) => {
+		console.log('here')
+		return User.findByIdAndUpdate(author, {$push: {images: image._id}})
+	})
+	.then(() => resolve('successful upload'))
+	.catch((err) => reject('uploading failed'));
 
 });
