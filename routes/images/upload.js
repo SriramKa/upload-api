@@ -18,9 +18,9 @@ router.post('/', isLoggedIn, upload.single('image'), (req, res, next) => {
 		res.end('file too large, it should be <=500kb');
 	}
 	else{
-		uploadFunction(req.user.id, file.buffer, file.mimetype)
+		uploadFunction(req.user.id, file.buffer, file.originalname, file.mimetype)
 		.then((result) => res.end(result))
-		.catch((err) => res.end(err));
+		.catch((err) => res.end(JSON.stringify(err)));
 	}
 });
 
